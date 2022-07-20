@@ -1,6 +1,7 @@
 package com.shoppingportal.product.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,8 +60,9 @@ public class ProductService {
 		existingProduct.setPrice(product.getPrice() != null ? product.getPrice() : existingProduct.getPrice());
 		existingProduct.setQuantity(product.getQuantity() != null ? product.getQuantity() : existingProduct.getQuantity());
 		
+		//productRepository.save(existingProduct);
 		
-		return existingProduct;
+		return productRepository.save(existingProduct);
 		
 		
 	}
@@ -71,6 +73,34 @@ public class ProductService {
 		
 		return product.getQuantity();
 	}
+
+	public void updateProductQuantity(Map<Integer, Integer> idQuantity) {
+		
+	
+		idQuantity.entrySet().stream().forEach(item ->
+		{
+			Product product = getProductById(item.getKey());
+		product.setQuantity(product.getQuantity() - item.getValue());
+		productRepository.save(product);
+		
+		});
+		
+		
+	/*
+	 * for(Map.Entry<Integer, Integer> idQuantityEntry : idQuantity.entrySet()) {
+	 * 
+	 * Product product = getProductById(idQuantityEntry.getKey());
+	 * product.setQuantity(product.getQuantity() - idQuantityEntry.getValue());
+	 * 
+	 * productRepository.save(product);
+	 * 
+	 * }
+	 */
+		
+	}
+}	
+
+
 	
 		
-}
+

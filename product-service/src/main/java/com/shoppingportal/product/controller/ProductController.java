@@ -1,6 +1,7 @@
 package com.shoppingportal.product.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -71,5 +72,11 @@ public class ProductController {
 		
 		return productService.getProductQuantityById(productId);
 	}
+
+
+  @PutMapping("/products/updateQuantity")
+  public void updateProductQuantity(@RequestBody Map<Integer,Integer> idQuantityMap) {
+		 productService.updateProductQuantity(idQuantityMap);
+}
 	
 }
