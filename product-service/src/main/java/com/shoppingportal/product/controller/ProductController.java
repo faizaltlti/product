@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+
+import com.shoppingportal.product.entity.Category;
 import com.shoppingportal.product.entity.Product;
+import com.shoppingportal.product.repository.CategoryRepository;
 import com.shoppingportal.product.service.ProductService;
 
 @RestController
@@ -26,6 +29,9 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 	
 	//@ResponseStatus(value = HttpStatus.CREATED)
 	@PostMapping("/products")
@@ -78,5 +84,20 @@ public class ProductController {
   public void updateProductQuantity(@RequestBody Map<Integer,Integer> idQuantityMap) {
 		 productService.updateProductQuantity(idQuantityMap);
 }
-	
+  @PostMapping("/products/saveCategory")
+	public ResponseEntity<Category> saveCategoryDetails(@RequestBody Category category) {
+		
+	  categoryRepository.save(category);
+	  
+		return new ResponseEntity<Category>(category,HttpStatus.CREATED);
+	}
+  
+  @GetMapping("/products/category/totalQuantity")
+  
+  public List<Map<String,Integer>> findTotalProductInEachCategory(){
+	return categoryRepository.findTotalProductInEachCategory();
+	  
+  }
+
+  
 }
